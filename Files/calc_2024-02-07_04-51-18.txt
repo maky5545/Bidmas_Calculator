@@ -1,0 +1,4 @@
+0. Full Opperation: [] 
+
+1. Reordered Opperation: ['2', '*'] 
+

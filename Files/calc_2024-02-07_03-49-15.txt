@@ -1,0 +1,32 @@
+0. . User input: 1+5+2-4/6-5-2+100
+ 
+
+1. . First number: 1
+Operator: +
+Second number: 5
+ 
+
+2. . Following operator: +
+Following number: 2
+ 
+
+2. . Following operator: -
+Following number: 4
+ 
+
+2. . Following operator: /
+Following number: 6
+ 
+
+2. . Following operator: -
+Following number: 5
+ 
+
+2. . Following operator: -
+Following number: 2
+ 
+
+2. . Following operator: +
+Following number: 100
+ 
+

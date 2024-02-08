@@ -1,0 +1,4 @@
+set_username = 
+set_output_calc_file = TRUE
+set_max_calc_files = 20
+set_max_retries = 3

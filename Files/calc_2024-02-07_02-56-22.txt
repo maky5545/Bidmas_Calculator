@@ -1,0 +1,2 @@
+1. & C: / Users / marcu / AppData / Local / Programs / Python / Python312 / python.exe c: / Users / marcu / Documents / Coding / Python / Calculator / BasicCalculator / 0.4 / Main.py 
+
