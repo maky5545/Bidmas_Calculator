@@ -5,13 +5,10 @@ lineNumber, loopNumber = 1, 0
 replaceListNum = float()
 listLength = int()
 
-input(eval("5 / 2 + 77 * 3 - 55 - 12 + 21 * 2 / 1"))
-
 userInput = input("Enter operation: ").rstrip()
 userInput = userInput.replace(" ", "")
 mathsList = re.split(r'(\+|-|\*|/)', userInput)
 storedmathsList = mathsList
-correctOperator = False
 listLength = len(mathsList)
 debugString = str()
 for i in mathsList:
