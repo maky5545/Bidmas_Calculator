@@ -2,7 +2,17 @@ import re
 import sys
 import math
 from FileManagement import outputFileCreator, openFileLocation
+from Parser import Parser
 
+#<<<<< SY Test
+parser = Parser
+
+list = parser.ConvertToLexemes("122 +9/  (37* 6) ")
+
+for lexeme in list:
+    print("value = " + str(lexeme.Value))
+    print("type = " + str(lexeme.Type) + "\n")
+#>>>>>
 mathNumOps = []
 toString = ""
 
