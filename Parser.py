@@ -1,5 +1,13 @@
-from Lexeme import *
-from Lexeme import eLexemeType
+from Lexeme import (
+    eLexemeType, 
+    Lexeme, 
+    PlusLexeme, 
+    MinusLexeme, 
+    TimesLexeme, 
+    DivideLexeme, 
+    NumberLexeme, 
+    OpeningBracketLexeme, 
+    ClosingBracketLexeme)
 
 class Parser:
 
@@ -17,7 +25,7 @@ class Parser:
         self.intIndex = 0
 
         while  self.intIndex < len(strInput):
-            lexeme = self.__ConvertToLexeme(self, strInput)
+            lexeme = self.__ConvertToLexeme(strInput)
 
             if lexeme.Type != eLexemeType.Empty:
                 lstLexemes.append(lexeme)
@@ -37,7 +45,7 @@ class Parser:
         if bracketsInWrongOrder == True:
             return "Closing bracket before opening bracket"
 
-        orderErrorFound, orderErrorMessage = self.__ValidateLexemeOrder(self, lstLexemes)
+        orderErrorFound, orderErrorMessage = self.__ValidateLexemeOrder(lstLexemes)
         if orderErrorFound == True:
             return orderErrorMessage
             
@@ -48,6 +56,7 @@ class Parser:
             lstLexemes[intIndex].NextLexeme = lstLexemes[intIndex + 1]
         return lstLexemes
     
+    @classmethod
     def __ValidateLexemeOrder(self, lstLexemes):
 
         lstLexemes = self.__LinkLexemes(lstLexemes)
@@ -73,9 +82,10 @@ class Parser:
         
         return matchingNumberOfBrackets, bracketsInWrongOrder
 
+    @classmethod
     def __ConvertToLexeme(self, strInput):
 
-        value = self.__GetValue(self, strInput)
+        value = self.__GetValue(strInput)
 
         if value.isdigit():
             numberLexeme = NumberLexeme()
@@ -96,6 +106,7 @@ class Parser:
         else:
             return Lexeme()
 
+    @classmethod
     def __GetValue(self, strInput, priorValue = ""):
 
         if len(strInput) <= self.intIndex:
@@ -105,12 +116,13 @@ class Parser:
 
         if value.isdigit():
             value = priorValue + value
-            if self.__NextCharacterAlongIsADigit(self, strInput):
+            if self.__NextCharacterAlongIsADigit(strInput):
                 self.intIndex += 1
-                return str(self.__GetValue(self, strInput, value))
+                return str(self.__GetValue(strInput, value))
 
         return value
     
+    @classmethod
     def __NextCharacterAlongIsADigit(self, strInput):
         if len(strInput) <= (self.intIndex + 1):
             return False
