@@ -37,20 +37,20 @@ class Parser:
         if bracketsInWrongOrder == True:
             return "Closing bracket before opening bracket"
 
-        orderErrorFound, orderErrorMessage = self.__ValidateLexemeOrder(lstLexemes)
+        orderErrorFound, orderErrorMessage = self.__ValidateLexemeOrder(self, lstLexemes)
         if orderErrorFound == True:
             return orderErrorMessage
             
-        return "no errors"
+        return "no errors" #change to "" once happy all working
 
-    def __LinkLexemes(self, lstLexemes):
+    def __LinkLexemes(lstLexemes):
         for intIndex in range(0, len(lstLexemes) - 1):
             lstLexemes[intIndex].NextLexeme = lstLexemes[intIndex + 1]
         return lstLexemes
     
     def __ValidateLexemeOrder(self, lstLexemes):
 
-        lstLexemes = self.__LinkLexemes(self, lstLexemes)
+        lstLexemes = self.__LinkLexemes(lstLexemes)
 
         for l in lstLexemes:
             if l.NextLexeme != None:
