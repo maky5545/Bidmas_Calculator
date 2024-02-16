@@ -1,4 +1,4 @@
-from Lexeme import Lexeme
+from Lexeme import *
 from Lexeme import eLexemeType
 
 class Parser:
@@ -18,7 +18,7 @@ class Parser:
 
         while  self.intIndex < len(strInput):
             lexeme = self.__ConvertToLexeme(self, strInput)
-            
+
             if lexeme.Type != eLexemeType.Empty:
                 lstLexemes.append(lexeme)
 
@@ -26,32 +26,75 @@ class Parser:
 
         return lstLexemes
 
+    @classmethod
+    def Validate(self, lstLexemes):
+
+        matchingNumberOfBrackets, bracketsInWrongOrder = self.__ValidateBrackets(lstLexemes)
+
+        if matchingNumberOfBrackets == False:
+            return "Number of opening and closing brackets doesn't match"
+
+        if bracketsInWrongOrder == True:
+            return "Closing bracket before opening bracket"
+
+        orderErrorFound, orderErrorMessage = self.__ValidateLexemeOrder(lstLexemes)
+        if orderErrorFound == True:
+            return orderErrorMessage
+            
+        return "no errors"
+
+    def __LinkLexemes(self, lstLexemes):
+        for intIndex in range(0, len(lstLexemes) - 1):
+            lstLexemes[intIndex].NextLexeme = lstLexemes[intIndex + 1]
+        return lstLexemes
+    
+    def __ValidateLexemeOrder(self, lstLexemes):
+
+        lstLexemes = self.__LinkLexemes(self, lstLexemes)
+
+        for l in lstLexemes:
+            if l.NextLexeme != None:
+                if l.NextLexeme.Type not in l.AllowedNextLexemeTypes:
+                    return True, l.NextLexeme.Type.name + " not allowed after " + l.Type.name
+        return False, ""
+
+    def __ValidateBrackets(lstLexemes):
+        
+        openingBracketCount = 0
+        closingBracketCount = 0
+        bracketsInWrongOrder = False
+        
+        for lexeme in lstLexemes:
+            openingBracketCount += 1 if lexeme.Type == eLexemeType.OpeningBracket else 0
+            closingBracketCount += 1 if lexeme.Type == eLexemeType.ClosingBracket else 0
+            bracketsInWrongOrder = True if closingBracketCount > openingBracketCount else bracketsInWrongOrder
+
+        matchingNumberOfBrackets = openingBracketCount == closingBracketCount
+        
+        return matchingNumberOfBrackets, bracketsInWrongOrder
+
     def __ConvertToLexeme(self, strInput):
 
         value = self.__GetValue(self, strInput)
-        
-        lexeme = Lexeme()
-        lexeme.Value = ""
 
         if value.isdigit():
-            lexeme.Type = eLexemeType.Number
-            lexeme.Value = value
+            numberLexeme = NumberLexeme()
+            numberLexeme.Value = value
+            return numberLexeme
         elif value == "+":
-            lexeme.Type = eLexemeType.Operator
+            return PlusLexeme()
         elif value == "-":
-            lexeme.Type = eLexemeType.Operator
+            return MinusLexeme()
         elif value == "*":
-            lexeme.Type = eLexemeType.Operator
+            return TimesLexeme()
         elif value == "/":
-            lexeme.Type = eLexemeType.Operator
+            return DivideLexeme()
         elif value == "(":
-            lexeme.Type = eLexemeType.OpeningBracket
+            return OpeningBracketLexeme()
         elif value == ")":
-            lexeme.Type = eLexemeType.ClosingBracket
+            return ClosingBracketLexeme()
         else:
-            lexeme.Type = eLexemeType.Empty
-
-        return lexeme
+            return Lexeme()
 
     def __GetValue(self, strInput, priorValue = ""):
 
